@@ -3,8 +3,8 @@ import { Button, logo, markLogo } from "./shared.js";
 export function Navbar() {
   const links = [
     ["Home", "#home"],
-    ["Tantangan Bisnis", "#pain-point"],
-    ["Tentang Kami", "#about"],
+    ["Tantangan", "#pain-point"],
+    ["About Us", "#about"],
     ["Layanan", "#services"],
     ["Workflow", "#workflow"],
     ["Keunggulan", "#why"],
@@ -24,7 +24,7 @@ export function Navbar() {
           <span></span><span></span><span></span>
         </button>
         <div class="nav-links">
-          ${links.map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}
+          ${links.map(([label, href], index) => `<a class="nav-link${index === 0 ? " is-active" : ""}" href="${href}" ${index === 0 ? 'aria-current="page"' : 'aria-current="false"'}>${label}</a>`).join("")}
           ${Button({ label: "Konsultasi", href: "#contact", variant: "primary nav-cta" })}
         </div>
       </nav>

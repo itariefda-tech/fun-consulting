@@ -267,14 +267,46 @@ p {
 }
 
 .nav-links a:not(.btn) {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  border: 1px solid transparent;
+  border-radius: 999px;
   color: #dbeafe;
   font-size: 0.86rem;
   font-weight: 700;
-  transition: color 180ms ease;
+  padding: 0 12px;
+  transition: color 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
 }
 
 .nav-links a:not(.btn):hover {
   color: var(--teal);
+}
+
+.nav-links a:not(.btn)::before {
+  width: 0;
+  height: 6px;
+  margin-right: 0;
+  content: "";
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--teal), var(--gold));
+  box-shadow: 0 0 16px rgba(0, 194, 199, 0.35);
+  opacity: 0;
+  transition: width 180ms ease, margin-right 180ms ease, opacity 180ms ease;
+}
+
+.nav-links a:not(.btn).is-active {
+  border-color: rgba(212, 175, 55, 0.22);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 0 0 1px rgba(0, 194, 199, 0.08), 0 0 22px rgba(0, 194, 199, 0.12);
+  color: #ffffff;
+}
+
+.nav-links a:not(.btn).is-active::before {
+  width: 6px;
+  margin-right: 8px;
+  opacity: 1;
 }
 
 .nav-toggle {
@@ -411,6 +443,7 @@ p {
 .orbit-card,
 .dashboard-panel,
 .gold-badge,
+.trust-chip,
 .visual-metric,
 .client-logo {
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -543,15 +576,100 @@ p {
 
 .hero-visual--dashboard {
   padding: 42px;
+  background:
+    radial-gradient(circle at 24% 22%, rgba(0, 194, 199, 0.22), transparent 18rem),
+    radial-gradient(circle at 80% 18%, rgba(212, 175, 55, 0.14), transparent 16rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.035));
 }
 
 .gold-badge {
+  position: relative;
+  z-index: 2;
   display: inline-flex;
   border-color: rgba(212, 175, 55, 0.36);
   border-radius: 999px;
   padding: 12px 18px;
   color: var(--gold-soft);
   font-weight: 800;
+}
+
+.trust-orb {
+  position: absolute;
+  top: 108px;
+  left: 50%;
+  display: grid;
+  width: 210px;
+  height: 210px;
+  place-items: center;
+  border: 1px solid rgba(0, 194, 199, 0.28);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(0, 194, 199, 0.2) 0 34%, rgba(2, 6, 23, 0.9) 35% 100%),
+    conic-gradient(from 20deg, var(--teal), rgba(212, 175, 55, 0.9), rgba(0, 194, 199, 0.22), var(--teal));
+  box-shadow:
+    inset 0 0 38px rgba(0, 194, 199, 0.14),
+    0 0 60px rgba(0, 194, 199, 0.18);
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.trust-orb::before {
+  position: absolute;
+  inset: 16px;
+  content: "";
+  border: 1px solid rgba(212, 175, 55, 0.24);
+  border-radius: 50%;
+  background: rgba(2, 6, 23, 0.8);
+}
+
+.trust-orb span,
+.trust-orb small {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.trust-orb span {
+  color: #ffffff;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.trust-orb small {
+  max-width: 112px;
+  color: var(--gold-soft);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.trust-chip {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border-radius: 999px;
+  padding: 12px 16px;
+  color: #e2e8f0;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.trust-chip .icon {
+  color: var(--teal);
+}
+
+.trust-chip--top {
+  top: 142px;
+  right: 48px;
+}
+
+.trust-chip--mid {
+  top: 244px;
+  left: 48px;
 }
 
 .dashboard-panel {
@@ -582,18 +700,6 @@ p {
   color: var(--teal);
   font-style: normal;
   font-weight: 800;
-}
-
-.document-stack {
-  position: absolute;
-  top: 106px;
-  right: 68px;
-  width: 210px;
-  height: 132px;
-  border: 1px solid rgba(212, 175, 55, 0.22);
-  border-radius: 20px;
-  background: linear-gradient(135deg, rgba(248, 250, 252, 0.92), rgba(226, 232, 240, 0.56));
-  box-shadow: -18px 18px 0 rgba(255, 255, 255, 0.08), -36px 36px 0 rgba(255, 255, 255, 0.04);
 }
 
 .hero-controls {
@@ -1440,11 +1546,29 @@ p {
     padding: 20px;
   }
 
-  .document-stack {
-    top: 92px;
-    right: 36px;
-    width: 150px;
-    height: 104px;
+  .trust-orb {
+    top: 94px;
+    width: 168px;
+    height: 168px;
+  }
+
+  .trust-orb span {
+    font-size: 2.35rem;
+  }
+
+  .trust-chip {
+    padding: 10px 12px;
+    font-size: 0.76rem;
+  }
+
+  .trust-chip--top {
+    top: 136px;
+    right: 18px;
+  }
+
+  .trust-chip--mid {
+    top: 230px;
+    left: 18px;
   }
 
   .pain-card,

@@ -57,13 +57,18 @@ export function HeroSlider() {
           </div>
           <div class="hero-visual hero-visual--dashboard reveal">
             <div class="gold-badge">Trusted Partner</div>
+            <div class="trust-orb">
+              <span>98%</span>
+              <small>Client Assistance</small>
+            </div>
+            <div class="trust-chip trust-chip--top">${icon("shield")} Confidential</div>
+            <div class="trust-chip trust-chip--mid">${icon("speed")} Fast Review</div>
             <div class="dashboard-panel">
               <span>Documentation Status</span>
               <div class="status-row"><b>Financial Report</b><i>Ready</i></div>
               <div class="status-row"><b>Tax File</b><i>Reviewed</i></div>
               <div class="status-row"><b>Tender Support</b><i>Assisted</i></div>
             </div>
-            <div class="document-stack"></div>
           </div>
         </div>
       </div>

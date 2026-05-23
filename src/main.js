@@ -37,6 +37,7 @@ app.innerHTML = `
 const navbar = document.querySelector(".navbar");
 const mobileToggle = document.querySelector(".nav-toggle");
 const navLinks = document.querySelector(".nav-links");
+const navItems = [...document.querySelectorAll(".nav-links a[href^='#']:not(.btn)")];
 const slides = [...document.querySelectorAll(".hero-slide")];
 const dots = [...document.querySelectorAll(".hero-dot")];
 const backToTop = document.querySelector(".back-to-top");
@@ -65,10 +66,42 @@ mobileToggle.addEventListener("click", () => {
 });
 
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
-  link.addEventListener("click", () => {
+  link.addEventListener("click", (event) => {
+    if (link.classList.contains("nav-link")) {
+      setActiveNav(link.getAttribute("href"));
+    }
     navLinks.classList.remove("is-open");
     mobileToggle.setAttribute("aria-expanded", "false");
   });
+});
+
+function setActiveNav(hash) {
+  navItems.forEach((item) => {
+    const active = item.getAttribute("href") === hash;
+    item.classList.toggle("is-active", active);
+    item.setAttribute("aria-current", active ? "page" : "false");
+  });
+}
+
+const sectionObserver = new IntersectionObserver(
+  (entries) => {
+    const visible = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (visible) {
+      setActiveNav(`#${visible.target.id}`);
+    }
+  },
+  {
+    rootMargin: "-28% 0px -55% 0px",
+    threshold: [0.12, 0.28, 0.48],
+  }
+);
+
+navItems.forEach((item) => {
+  const target = document.querySelector(item.getAttribute("href"));
+  if (target) sectionObserver.observe(target);
 });
 
 window.addEventListener("scroll", () => {
