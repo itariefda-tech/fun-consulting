@@ -1,5 +1,8 @@
-export const logo = "img/logo_label-fun-web.png";
-export const markLogo = "img/logo_fun-web.png";
+import logoUrl from "../../img/logo_label-fun-web.png";
+import markLogoUrl from "../../img/logo_fun-web.png";
+
+export const logo = logoUrl;
+export const markLogo = markLogoUrl;
 export const whatsappAryo = "https://wa.me/6281285745854";
 export const whatsappArief = "https://wa.me/628118080700";
 
