@@ -1,17 +1,15 @@
-FROM node:24-alpine AS build
+FROM node:20-alpine
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
+
+RUN npm install
 
 COPY . .
-RUN npm run build
 
-FROM nginx:1.27-alpine
+RUN npx vite build
 
-COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 3000
 
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npx", "vite", "preview", "--host", "0.0.0.0", "--port", "3000"]
