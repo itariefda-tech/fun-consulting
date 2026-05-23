@@ -1,0 +1,14 @@
+{
+  "name": "fun-consulting-landing-page",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173 --open",
+    "dev:host": "vite --host 0.0.0.0 --port 5173 --open",
+    "preview": "vite preview --host 127.0.0.1 --port 4173"
+  },
+  "devDependencies": {
+    "vite": "^7.2.4"
+  }
+}

@@ -12,6 +12,29 @@ Landing page ini dirancang dengan pendekatan modern corporate, enterprise consul
 
 ---
 
+## Local Development
+
+Jalankan live development server:
+
+```bash
+npm install
+npm run dev
+```
+
+Landing page akan tersedia di:
+
+```txt
+http://127.0.0.1:5173
+```
+
+Untuk akses dari device lain di jaringan yang sama:
+
+```bash
+npm run dev:host
+```
+
+---
+
 # Background & Business Needs
 
 Banyak perusahaan mengalami kendala administratif dan finansial yang menghambat fokus utama bisnis mereka.
