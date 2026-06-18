@@ -1,10 +1,10 @@
-import { Button, icon, whatsappAryo, whatsappArief } from "./shared.js";
+import { Button, editMeta, icon, whatsappAryo, whatsappArief } from "./shared.js";
 
 export function CTASection() {
   return `
-    <section class="section cta-section" id="contact">
+    <section class="section cta-section" id="contact" ${editMeta({ id: "contact", key: "cta-contact-section", routeName: "#contact", component: "CTASection" })}>
       <div class="container">
-        <div class="cta-banner reveal">
+        <div class="cta-banner reveal" ${editMeta({ id: "contact-cta-banner", key: "cta-banner", routeName: "#contact", component: "CTASection.Banner" })}>
           <span class="eyebrow">Ready To Consult</span>
           <h2>Konsultasikan Kebutuhan Bisnis Anda Sekarang</h2>
           <p>Diskusikan kebutuhan laporan keuangan, perpajakan, bank garansi, surety bond, PPIU & PIHK, atau asuransi perusahaan bersama tim profesional FUN Consulting.</p>

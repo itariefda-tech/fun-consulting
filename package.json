@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --host 127.0.0.1 --port 5173 --open",
+    "dev": "node scripts/dev-edge.mjs --no-build",
+    "dev:build": "node scripts/dev-edge.mjs",
+    "dev:vite": "vite --host 127.0.0.1 --port 5173 --strictPort",
     "dev:host": "vite --host 0.0.0.0 --port 5173 --open",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4173"

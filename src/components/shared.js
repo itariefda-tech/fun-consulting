@@ -6,9 +6,14 @@ export const markLogo = markLogoUrl;
 export const whatsappAryo = "https://wa.me/6281285745854";
 export const whatsappArief = "https://wa.me/628118080700";
 
+export function editMeta({ id, key, routeName, component }) {
+  const label = [`id:${id}`, `key:${key}`, `route:${routeName}`, `component:${component}`].join(" | ");
+  return `data-edit-id="${id}" data-edit-key="${key}" data-route-name="${routeName}" data-component="${component}" data-edit-label="${label}"`;
+}
+
 export function SectionTitle({ eyebrow, title, description, align = "center" }) {
   return `
-    <div class="section-title section-title--${align} reveal">
+    <div class="section-title section-title--${align} reveal" ${editMeta({ id: `section-title-${eyebrow.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`, key: "section-title", routeName: "shared", component: "SectionTitle" })}>
       <span class="eyebrow">${eyebrow}</span>
       <h2>${title}</h2>
       <p>${description}</p>

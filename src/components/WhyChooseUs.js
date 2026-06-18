@@ -1,4 +1,4 @@
-import { SectionTitle, icon } from "./shared.js";
+import { SectionTitle, editMeta, icon } from "./shared.js";
 
 export function WhyChooseUs() {
   const benefits = [
@@ -10,7 +10,7 @@ export function WhyChooseUs() {
   ];
 
   return `
-    <section class="section why" id="why">
+    <section class="section why" id="why" ${editMeta({ id: "why", key: "why-choose-us-section", routeName: "#why", component: "WhyChooseUs" })}>
       <div class="container why-grid">
         <div>
           ${SectionTitle({
@@ -20,9 +20,9 @@ export function WhyChooseUs() {
             align: "left",
           })}
         </div>
-        <div class="benefit-grid">
+        <div class="benefit-grid" ${editMeta({ id: "benefit-grid", key: "why-benefit-grid", routeName: "#why", component: "WhyChooseUs.Grid" })}>
           ${benefits.map(([title, text, iconName]) => `
-            <article class="benefit-card glass-card reveal">
+            <article class="benefit-card glass-card reveal" ${editMeta({ id: `benefit-card-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`, key: `benefit-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`, routeName: "#why", component: "WhyChooseUs.BenefitCard" })}>
               ${icon(iconName)}
               <div>
                 <h3>${title}</h3>

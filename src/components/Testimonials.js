@@ -1,4 +1,4 @@
-import { SectionTitle } from "./shared.js";
+import { SectionTitle, editMeta } from "./shared.js";
 
 export function Testimonials() {
   const testimonials = [
@@ -8,7 +8,7 @@ export function Testimonials() {
   ];
 
   return `
-    <section class="section testimonials" id="testimonials">
+    <section class="section testimonials" id="testimonials" ${editMeta({ id: "testimonials", key: "testimonials-section", routeName: "#testimonials", component: "Testimonials" })}>
       <div class="container">
         ${SectionTitle({
           eyebrow: "Testimonials",
@@ -17,7 +17,7 @@ export function Testimonials() {
         })}
         <div class="testimonial-grid">
           ${testimonials.map(([name, role, quote]) => `
-            <article class="testimonial-card glass-card reveal">
+            <article class="testimonial-card glass-card reveal" ${editMeta({ id: `testimonial-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`, key: `testimonial-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`, routeName: "#testimonials", component: "Testimonials.Card" })}>
               <span class="quote-mark">"</span>
               <p>${quote}</p>
               <div>

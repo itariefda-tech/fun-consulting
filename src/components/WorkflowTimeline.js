@@ -1,4 +1,4 @@
-import { SectionTitle, icon } from "./shared.js";
+import { SectionTitle, editMeta, icon } from "./shared.js";
 
 export function WorkflowTimeline() {
   const steps = [
@@ -9,7 +9,7 @@ export function WorkflowTimeline() {
   ];
 
   return `
-    <section class="section workflow" id="workflow">
+    <section class="section workflow" id="workflow" ${editMeta({ id: "workflow", key: "workflow-section", routeName: "#workflow", component: "WorkflowTimeline" })}>
       <div class="container">
         ${SectionTitle({
           eyebrow: "How We Work",
@@ -18,7 +18,7 @@ export function WorkflowTimeline() {
         })}
         <div class="timeline reveal">
           ${steps.map(([number, title, text, iconName]) => `
-            <article class="timeline-card">
+            <article class="timeline-card" ${editMeta({ id: `workflow-step-${number}`, key: `workflow-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`, routeName: "#workflow", component: "WorkflowTimeline.Step" })}>
               <span>${number}</span>
               <div class="timeline-icon">${icon(iconName)}</div>
               <h3>${title}</h3>
