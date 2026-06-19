@@ -1,5 +1,6 @@
 export const SERVICE_STORAGE_KEY = "fun-consulting-services";
 export const OWNER_PASSWORD = "owner0180";
+const SERVICES_API_PATH = "/api/services";
 
 export const serviceIconOptions = [
   ["file", "Laporan"],
@@ -46,6 +47,8 @@ export const fallbackServices = [
   },
 ];
 
+let serviceCache = fallbackServices;
+
 export function slugify(value) {
   return String(value)
     .toLowerCase()
@@ -81,6 +84,10 @@ export function normalizeServices(services) {
 }
 
 export function getServices() {
+  return serviceCache;
+}
+
+function getLocalServices() {
   try {
     const stored = localStorage.getItem(SERVICE_STORAGE_KEY);
     if (!stored) return fallbackServices;
@@ -90,10 +97,58 @@ export function getServices() {
   }
 }
 
-export function saveServices(services) {
-  localStorage.setItem(SERVICE_STORAGE_KEY, JSON.stringify(normalizeServices(services)));
+export async function loadServices() {
+  try {
+    const response = await fetch(SERVICES_API_PATH, {
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+    });
+
+    if (!response.ok) throw new Error("Services API is unavailable.");
+
+    const data = await response.json();
+    serviceCache = normalizeServices(data.services);
+    localStorage.setItem(SERVICE_STORAGE_KEY, JSON.stringify(serviceCache));
+  } catch {
+    serviceCache = getLocalServices();
+  }
+
+  return serviceCache;
 }
 
-export function resetServices() {
+export async function saveServices(services) {
+  const normalized = normalizeServices(services);
+  const response = await fetch(SERVICES_API_PATH, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "X-Owner-Password": OWNER_PASSWORD,
+    },
+    body: JSON.stringify({ services: normalized }),
+  });
+
+  if (!response.ok) throw new Error("Gagal menyimpan layanan ke server.");
+
+  const data = await response.json();
+  serviceCache = normalizeServices(data.services);
+  localStorage.setItem(SERVICE_STORAGE_KEY, JSON.stringify(serviceCache));
+  return serviceCache;
+}
+
+export async function resetServices() {
+  const response = await fetch(SERVICES_API_PATH, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "X-Owner-Password": OWNER_PASSWORD,
+    },
+  });
+
+  if (!response.ok) throw new Error("Gagal mereset layanan di server.");
+
+  const data = await response.json();
+  serviceCache = normalizeServices(data.services);
   localStorage.removeItem(SERVICE_STORAGE_KEY);
+  return serviceCache;
 }

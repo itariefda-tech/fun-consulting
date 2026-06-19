@@ -1222,6 +1222,10 @@ p {
   margin-top: 20px;
 }
 
+.owner-note.is-error {
+  color: #fca5a5;
+}
+
 .workflow {
   background:
     linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.68), transparent);

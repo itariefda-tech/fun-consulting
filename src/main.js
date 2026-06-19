@@ -16,6 +16,7 @@ import {
   OWNER_PASSWORD,
   fallbackServices,
   getServices,
+  loadServices,
   saveServices,
   resetServices,
   serviceIconOptions,
@@ -272,7 +273,7 @@ function ownerBuilderTemplate() {
       <button class="btn btn--primary" type="button" data-owner-save>Simpan Perubahan</button>
       <button class="owner-text-button" type="button" data-owner-reset>Reset default</button>
     </div>
-    <p class="owner-note">Perubahan tersimpan di browser ini dan langsung dipakai section layanan setelah kembali ke website.</p>
+    <p class="owner-note" data-owner-status>Perubahan tersimpan di server dan langsung dipakai semua device setelah halaman dimuat ulang.</p>
   `;
 }
 
@@ -291,6 +292,13 @@ function refreshOwnerBuilder(services = getServices()) {
 }
 
 function setupOwnerBuilder() {
+  const setStatus = (message, isError = false) => {
+    const status = document.querySelector("[data-owner-status]");
+    if (!status) return;
+    status.textContent = message;
+    status.classList.toggle("is-error", isError);
+  };
+
   document.querySelector("[data-owner-add]").addEventListener("click", () => {
     const services = collectOwnerServices();
     services.push({
@@ -301,14 +309,27 @@ function setupOwnerBuilder() {
     refreshOwnerBuilder(services);
   });
 
-  document.querySelector("[data-owner-save]").addEventListener("click", () => {
-    saveServices(collectOwnerServices());
-    refreshOwnerBuilder();
+  document.querySelector("[data-owner-save]").addEventListener("click", async () => {
+    try {
+      setStatus("Menyimpan perubahan ke server...");
+      await saveServices(collectOwnerServices());
+      refreshOwnerBuilder();
+      setStatus("Perubahan berhasil tersimpan di server dan berlaku untuk semua device.");
+    } catch {
+      setStatus("Gagal menyimpan ke server. Coba ulangi setelah koneksi/server aktif.", true);
+    }
   });
 
-  document.querySelector("[data-owner-reset]").addEventListener("click", () => {
-    resetServices();
-    refreshOwnerBuilder(fallbackServices);
+  document.querySelector("[data-owner-reset]").addEventListener("click", async () => {
+    try {
+      setStatus("Mereset layanan di server...");
+      const services = await resetServices();
+      refreshOwnerBuilder(services);
+      setStatus("Layanan berhasil direset ke default di server.");
+    } catch {
+      setStatus("Gagal mereset layanan di server. Coba ulangi setelah koneksi/server aktif.", true);
+      refreshOwnerBuilder(fallbackServices);
+    }
   });
 
   document.querySelector("[data-owner-builder]").addEventListener("click", (event) => {
@@ -338,7 +359,8 @@ function setupOwnerLogin() {
   });
 }
 
-function renderApp() {
+async function renderApp() {
+  await loadServices();
   ownerModeActive = window.location.hash === "#owner-credential";
   document.body.classList.toggle("owner-mode", ownerModeActive);
 

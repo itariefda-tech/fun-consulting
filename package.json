@@ -9,7 +9,8 @@
     "dev:vite": "vite --host 127.0.0.1 --port 5173 --strictPort",
     "dev:host": "vite --host 0.0.0.0 --port 5173 --open",
     "build": "vite build",
-    "preview": "vite preview --host 127.0.0.1 --port 4173"
+    "preview": "node scripts/server.mjs --host 127.0.0.1 --port 4173",
+    "start": "node scripts/server.mjs"
   },
   "devDependencies": {
     "vite": "^7.2.4"
